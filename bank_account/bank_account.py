@@ -1,7 +1,7 @@
 
 """
 Description: BankAccount class for the banking system.
-Author: [Your Name]
+Author: [navpreet kaur]
 """
 
 class BankAccount:
@@ -16,7 +16,7 @@ class BankAccount:
         """
         # Validate account_number
         if not isinstance(account_number, int):
-            raise ValueError("Account number must be an integer.")
+            raise ValueError("Account number must be  integer.")
         self.__account_number = account_number
 
         # Validate client_number
@@ -48,8 +48,6 @@ class BankAccount:
     def update_balance(self, amount: float):
         """
         Updates the account balance by adding the specified amount.
-
-        :param amount: The amount to add (can be negative).
         """
         try:
             amount = float(amount)
