@@ -11,9 +11,9 @@ class Client:
         Initializes a new Client instance with validated attributes.
 
         :param client_number: An integer representing the client number.
-        :param first_name: The client's first name (non-blank).
-        :param last_name: The client's last name (non-blank).
-        :param email_address: The client's email address (valid format).
+        :param first_name: The client's first name.
+        :param last_name: The client's last name.
+        :param email_address: The client's email address .
         :raises ValueError: If validations fail.
         """
         # Validate client_number
