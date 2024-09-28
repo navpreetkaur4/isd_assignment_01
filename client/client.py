@@ -62,8 +62,6 @@ class Client:
 
     def __str__(self) -> str:
         """
-        Returns a formatted string representation of the Client.
-
-        :return: Formatted string.
+        Returns formatted string representation of the Client.
         """
         return f"{self.__last_name}, {self.__first_name} [{self.__client_number}] - {self.__email_address}\n"
