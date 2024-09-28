@@ -19,7 +19,7 @@ def main():
     except ValueError as e:
         print(f"Error creating client: {e}")
     
-    # Testing with an invalid email
+    # Testing with an wrong email
     try:
         client_invalid = Client(1011, "John", "Doe", "invalid-email")
         print(f"Created Client: {client_invalid}")
