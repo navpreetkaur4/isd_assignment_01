@@ -5,10 +5,6 @@ Author: ACE Faculty
 Edited by: {Student Name}
 Date: {Date}
 """
-"""
-Description: A01_main.py serves as the entry point for interactively testing the Client and BankAccount classes.
-Author: [Your Name]
-"""
 
 from bank_account.bank_account import BankAccount
 from client.client import Client
