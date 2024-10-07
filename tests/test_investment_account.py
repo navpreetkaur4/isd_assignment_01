@@ -1,6 +1,6 @@
 """
 Description: Unit tests for the InvestmentAccount class.
-Author: {Your Name}
+Author: {navpreet kaur}
 """
 
 import unittest
