@@ -1,6 +1,6 @@
 """
 Description: SavingsAccount class definition extending BankAccount.
-Author: {Your Name}
+Author: {navpreet kaur}
 """
 
 from bank_account import BankAccount
