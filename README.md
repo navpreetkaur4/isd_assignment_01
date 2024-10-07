@@ -7,6 +7,8 @@ have one or more bank accounts.
 ## Author
 [Navpreet kaur]
 
+## Date
+2024-10-06
 ## Assignment
 Assignment 1: Bank account and client management system.
 Assignment 2: Creating and testing specialized account types (Chequing, Investment, Savings) with service charges.
