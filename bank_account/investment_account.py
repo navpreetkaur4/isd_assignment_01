@@ -8,7 +8,7 @@ from .bank_account import BankAccount  # Correct relative import
 from datetime import date, timedelta
 
 class InvestmentAccount(BankAccount):
-    """Class representing an Investment Account that extends BankAccount."""
+    """Class representing Investment Account that extends BankAccount."""
 
     BASE_SERVICE_CHARGE = 0.50
     TEN_YEARS_AGO = date.today() - timedelta(days=10 * 365.25)
