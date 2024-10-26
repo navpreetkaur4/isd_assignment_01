@@ -1,6 +1,6 @@
 """
 Description: This file defines the InvestmentAccount class, which represents a investment account with basic operations such as deposit and withdrawal.
-Author: Sukhtab Singh Warya
+Author: Navpreet
 Date: 06/10/2024
 
 """
