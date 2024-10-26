@@ -1,57 +1,50 @@
 """
-Description: InvestmentAccount class definition extending BankAccount.
-Author: {navpreet kaur}
-"""
+Description: This file defines the InvestmentAccount class, which represents a investment account with basic operations such as deposit and withdrawal.
+Author: Sukhtab Singh Warya
+Date: 06/10/2024
 
-from bank_account import BankAccount
+"""
+from .bank_account import BankAccount  # Correct relative import
 from datetime import date, timedelta
 
-
 class InvestmentAccount(BankAccount):
-    """
-    Class representing an Investment Account.
-    """
+    """Class representing an Investment Account that extends BankAccount."""
 
+    BASE_SERVICE_CHARGE = 0.50
     TEN_YEARS_AGO = date.today() - timedelta(days=10 * 365.25)
 
-    def __init__(self, account_number: str, balance: float, date_created, management_fee: float):
-        """
-        Initializes the InvestmentAccount instance.
+    def __init__(self, account_number, client_number, balance, date_created, management_fee=2.55):
+        """Initialize the Investment Account with specific attributes."""
+        super().__init__(account_number, client_number, balance, date_created)
 
-        :param account_number: The account number of the bank account.
-        :param balance: The current balance of the bank account.
-        :param date_created: The date the account was created.
-        :param management_fee: The management fee charged for the account.
-        """
-        super().__init__(account_number, balance, date_created)
+        # Validate date_created
+        if not isinstance(date_created, (str, date)):
+            raise ValueError("Date created must be a string or a date object.")
 
-        # Validate management fee
+        self.date_created = date_created  # Store the date created
+
+        # Validate and set management_fee
         try:
-            self.__management_fee = float(management_fee)
+            self.management_fee = float(management_fee)
         except (ValueError, TypeError):
-            self.__management_fee = 2.55
+            self.management_fee = 2.55
 
-    @property
-    def management_fee(self):
-        """Returns the management fee."""
-        return self.__management_fee
+    def __str__(self):
+        """Return a string representation of the Investment Account."""
+        base_str = super().__str__()
+        if isinstance(self.date_created, date) and self.date_created > self.TEN_YEARS_AGO:
+            management_fee_str = f"${self.management_fee:.2f}"
+        else:
+            management_fee_str = "Waived"
+        
+        return (
+            f"{base_str}Date Created: {self.date_created} "
+            f"Management Fee: {management_fee_str} Account Type: Investment"
+        )
 
-    def get_service_charges(self) -> float:
-        """
-        Calculates the service charges for the Investment Account.
-
-        :return: The calculated service charges.
-        """
-        if self.date_created < self.TEN_YEARS_AGO:
+    def get_service_charges(self):
+        """Calculate the service charges for the Investment Account."""
+        if isinstance(self.date_created, date) and self.date_created <= self.TEN_YEARS_AGO:
             return self.BASE_SERVICE_CHARGE
         else:
             return self.BASE_SERVICE_CHARGE + self.management_fee
-
-    def __str__(self):
-        """Returns a string representation of the Investment Account."""
-        if self.date_created < self.TEN_YEARS_AGO:
-            management_fee_display = "Waived"
-        else:
-            management_fee_display = f"${self.management_fee:.2f}"
-
-        return f"{super().__str__()}\nDate Created: {self.date_created} Management Fee: {management_fee_display} Account Type: Investment"

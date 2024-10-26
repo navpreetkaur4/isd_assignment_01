@@ -1,29 +1,55 @@
 """
 Description: Unit tests for the SavingsAccount class.
-Author: {navpreet kaur}
+Author: SUkhtab Singh Warya
+Date: 06/10/2024
 """
 
-import unittest
-from datetime import date
-from savings_account import SavingsAccount
 
+import unittest
+from bank_account.savings_account import SavingsAccount
+from datetime import date
 
 class TestSavingsAccount(unittest.TestCase):
-    """Unit tests for the SavingsAccount class."""
 
     def setUp(self):
-        """Sets up test cases."""
-        self.account = SavingsAccount("345678", 1000, date(2021, 1, 1))
+        """Set up a basic SavingsAccount instance for testing."""
+        self.account_valid = SavingsAccount(26350095, 4008, 1400.00, date.today(), 50.00)
 
-    def test_service_charge(self):
-        """Tests service charge calculation for the Savings Account."""
-        self.assertEqual(round(self.account.get_service_charges(), 2), 0.50)  # Assuming flat service charge
+    def test_init_attributes(self):
+        """Test __init__ to ensure attributes are set to parameter values."""
+        self.assertEqual(self.account_valid.account_number, 26350095)
+        self.assertEqual(self.account_valid.client_number, 4008)
+        self.assertEqual(round(self.account_valid.balance, 2), 1400.00)
+        self.assertEqual(self.account_valid.date_created, date.today())
+        self.assertEqual(round(self.account_valid.minimum_balance, 2), 50.00)
 
-    def test_account_string(self):
-        """Tests the string representation of the Savings Account."""
-        expected_string = "Account Number: 345678 Balance: $1000.00 Account Type: Savings"
-        self.assertEqual(str(self.account), expected_string)
+    def test_init_invalid_minimum_balance_type(self):
+        """Test __init__ when minimum_balance has an invalid type."""
+        account_invalid_balance = SavingsAccount(26350095, 4008, 1400.00, date.today(), "invalid")
+        self.assertEqual(round(account_invalid_balance.minimum_balance, 2), 50.00)
 
+    def test_get_service_charges_balance_greater_than_minimum_balance(self):
+        """Test get_service_charges when balance is greater than minimum balance."""
+        expected_charge = SavingsAccount.BASE_SERVICE_CHARGE  # Assuming BASE_SERVICE_CHARGE is defined in your class
+        self.assertEqual(round(self.account_valid.get_service_charges(), 2), round(expected_charge, 2))
 
-if __name__ == "__main__":
+    def test_get_service_charges_balance_equal_to_minimum_balance(self):
+        """Test get_service_charges when balance is equal to minimum balance."""
+        account_equal_balance = SavingsAccount(26350095, 4008, 50.00, date.today(), 50.00)
+        expected_charge = SavingsAccount.BASE_SERVICE_CHARGE  # Assuming BASE_SERVICE_CHARGE is defined
+        self.assertEqual(round(account_equal_balance.get_service_charges(), 2), round(expected_charge, 2))
+
+    def test_get_service_charges_balance_less_than_minimum_balance(self):
+        """Test get_service_charges when balance is less than minimum balance."""
+        account_low_balance = SavingsAccount(26350095, 4008, 49.99, date.today(), 50.00)
+        expected_charge = SavingsAccount.BASE_SERVICE_CHARGE * SavingsAccount.SERVICE_CHARGE_PREMIUM  # Assuming SERVICE_CHARGE_PREMIUM is defined
+        self.assertEqual(round(account_low_balance.get_service_charges(), 2), round(expected_charge, 2))
+
+    def test_str_appropriate_value_returned(self):
+        """Test __str__ returns appropriate value based on attribute values."""
+        expected_str = ("Account Number: 26350095 Balance: $1400.00\n"
+                        "Minimum Balance: $50.00 Account Type: Savings")
+        self.assertEqual(str(self.account_valid), expected_str)
+
+if __name__ == '__main__':
     unittest.main()

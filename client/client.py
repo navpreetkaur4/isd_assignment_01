@@ -1,6 +1,7 @@
 """
-Description: Client class for the banking system.
-Author: [navpreet kaur]
+Description: This file defines the Client class used to represent a bank client.
+Author: Sukhtab Singh Warya
+Date: 10/09/2024
 """
 
 from email_validator import validate_email, EmailNotValidError
@@ -8,60 +9,72 @@ from email_validator import validate_email, EmailNotValidError
 class Client:
     def __init__(self, client_number: int, first_name: str, last_name: str, email_address: str):
         """
-        Initializes a new Client instance with validated attributes.
+        Initialize a new Client instance.
 
-        :param client_number: An integer representing the client number.
-        :param first_name: The client's first name.
-        :param last_name: The client's last name.
-        :param email_address: The client's email address .
-        :raises ValueError: If validations fail.
+        :param client_number: Integer representing the client's number.
+        :param first_name: String representing the client's first name.
+        :param last_name: String representing the client's last name.
+        :param email_address: String representing the client's email address.
         """
-        # Validate client_number
+        # Validate and set client_number
         if not isinstance(client_number, int):
             raise ValueError("Client number must be an integer.")
-        self.__client_number = client_number
+        self._client_number = client_number
 
-        # Validate first_name
-        stripped_first_name = first_name.strip()
-        if not stripped_first_name:
+        # Validate and set first_name
+        first_name = first_name.strip()
+        if not first_name:
             raise ValueError("First name cannot be blank.")
-        self.__first_name = stripped_first_name
+        self._first_name = first_name
 
-        # Validate last_name
-        stripped_last_name = last_name.strip()
-        if not stripped_last_name:
+        # Validate and set last_name
+        last_name = last_name.strip()
+        if not last_name:
             raise ValueError("Last name cannot be blank.")
-        self.__last_name = stripped_last_name
+        self._last_name = last_name
 
-        # Validate email_address
+        # Validate email address using email-validator
         try:
-            validated_email = validate_email(email_address)
-            self.__email_address = validated_email.email
+            valid_email = validate_email(email_address)
+            self._email_address = valid_email.normalized
         except EmailNotValidError:
-            self.__email_address = "email@pixell-river.com"
+            self._email_address = "email@pixell-river.com"
 
     @property
-    def client_number(self) -> int:
-        """Gets the client number."""
-        return self.__client_number
-
-    @property
-    def first_name(self) -> str:
-        """Gets the first name."""
-        return self.__first_name
-
-    @property
-    def last_name(self) -> str:
-        """Gets the last name."""
-        return self.__last_name
-
-    @property
-    def email_address(self) -> str:
-        """Gets the email address."""
-        return self.__email_address
-
-    def __str__(self) -> str:
+    def client_number(self):
         """
-        Returns formatted string representation of the Client.
+        Accessor for the client number.
+        :return: The client's number as an integer.
         """
-        return f"{self.__last_name}, {self.__first_name} [{self.__client_number}] - {self.__email_address}\n"
+        return self._client_number
+
+    @property
+    def first_name(self):
+        """
+        Accessor for the client's first name.
+        :return: The client's first name as a string.
+        """
+        return self._first_name
+
+    @property
+    def last_name(self):
+        """
+        Accessor for the client's last name.
+        :return: The client's last name as a string.
+        """
+        return self._last_name
+
+    @property
+    def email_address(self):
+        """
+        Accessor for the client's email address.
+        :return: The client's email address as a string.
+        """
+        return self._email_address
+
+    def __str__(self):
+        """
+        Returns a string representation of the client.
+        :return: String in the format: {last_name}, {first_name} [{client_number}] - {email_address}
+        """
+        return f"{self._last_name}, {self._first_name} [{self._client_number}] - {self._email_address}\n"
