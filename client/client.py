@@ -1,6 +1,6 @@
 """
 Description: This file defines the Client class used to represent a bank client.
-Author: Sukhtab Singh Warya
+Author: Navpreet kaur
 Date: 10/09/2024
 """
 from patterns.observer.observer import Observer
