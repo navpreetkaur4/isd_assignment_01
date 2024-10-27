@@ -1,67 +1,41 @@
 """
-Description: Client class for the banking system.
-Author: [navpreet kaur]
+Description: This file defines the Client class used to represent a bank client.
+Author: Navpreet kaur
+Date: 10/09/2024
 """
+from patterns.observer.observer import Observer
+from utility.file_utils import simulate_send_email
+from datetime import datetime
 
-from email_validator import validate_email, EmailNotValidError
+class Client(Observer):
+    """
+    The Client class represents an observer that gets notified of changes 
+    in the subject, specifically for bank account activities.
+    """
 
-class Client:
-    def __init__(self, client_number: int, first_name: str, last_name: str, email_address: str):
+    def __init__(self, client_number, first_name, last_name):
         """
-        Initializes a new Client instance with validated attributes.
+        Initialize the Client with necessary attributes.
 
-        :param client_number: An integer representing the client number.
-        :param first_name: The client's first name.
-        :param last_name: The client's last name.
-        :param email_address: The client's email address .
-        :raises ValueError: If validations fail.
+        Parameters:
+        client_number (str): Unique identifier for the client.
+        first_name (str): The first name of the client.
+        last_name (str): The last name of the client.
         """
-        # Validate client_number
-        if not isinstance(client_number, int):
-            raise ValueError("Client number must be an integer.")
-        self.__client_number = client_number
+        self.client_number = client_number
+        self.first_name = first_name
+        self.last_name = last_name
 
-        # Validate first_name
-        stripped_first_name = first_name.strip()
-        if not stripped_first_name:
-            raise ValueError("First name cannot be blank.")
-        self.__first_name = stripped_first_name
-
-        # Validate last_name
-        stripped_last_name = last_name.strip()
-        if not stripped_last_name:
-            raise ValueError("Last name cannot be blank.")
-        self.__last_name = stripped_last_name
-
-        # Validate email_address
-        try:
-            validated_email = validate_email(email_address)
-            self.__email_address = validated_email.email
-        except EmailNotValidError:
-            self.__email_address = "email@pixell-river.com"
-
-    @property
-    def client_number(self) -> int:
-        """Gets the client number."""
-        return self.__client_number
-
-    @property
-    def first_name(self) -> str:
-        """Gets the first name."""
-        return self.__first_name
-
-    @property
-    def last_name(self) -> str:
-        """Gets the last name."""
-        return self.__last_name
-
-    @property
-    def email_address(self) -> str:
-        """Gets the email address."""
-        return self.__email_address
-
-    def __str__(self) -> str:
+    def update(self, message):
         """
-        Returns formatted string representation of the Client.
+        Update method that gets called when the subject notifies the observer.
+
+        Parameters:
+        message (str): The notification message from the subject.
         """
-        return f"{self.__last_name}, {self.__first_name} [{self.__client_number}] - {self.__email_address}\n"
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        subject_line = f"ALERT: Unusual Activity: {current_time}"
+        notification_message = f"Notification for {self.client_number}: {self.first_name} {self.last_name}: {message}"
+
+        # Simulate sending an email
+        simulate_send_email(subject_line, notification_message)
