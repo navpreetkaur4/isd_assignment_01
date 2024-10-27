@@ -1,6 +1,6 @@
 """
 Description: Unit tests for the SavingsAccount class.
-Author: SUkhtab Singh Warya
+Author: Navpreet kaur
 Date: 06/10/2024
 """
 
