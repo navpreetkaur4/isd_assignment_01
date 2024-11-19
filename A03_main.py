@@ -2,7 +2,7 @@
 Description: A client program written to verify implementation 
 of the Observer Pattern.
 Author: ACE Faculty
-Edited by: {Student Name}
+Edited by: {Navpreet kaur}
 Date: {Date}
 """
 

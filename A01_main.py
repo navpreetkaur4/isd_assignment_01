@@ -2,7 +2,7 @@
 Description: A client program written to verify correctness of 
 the BankAccount and Transaction classes.
 Author: ACE Faculty
-Edited by: {Student Name}
+Edited by:Navpreet kaur
 Date: {Date}
 """
 
