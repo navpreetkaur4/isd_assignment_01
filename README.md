@@ -12,4 +12,4 @@ have one or more bank accounts.
 ## Assignment
 Assignment 1: Bank account and client management system.
 Assignment 2: Creating and testing specialized account types (Chequing, Investment, Savings) with service charges.
-Assignment 3: The Strategy Pattern is implemented in this banking application to allow different service charge calculations based on account types. Each account class uses a specific strategy for calculating service charges, enabling easier future adaptations without altering core classes. The strategies encapsulate the charge calculation logic for overdraft, management fees, and minimum balances, promoting maintainability and scalability.
+Assignment 3: Design Patterns - Implementing Strategy and Observer Patterns for Service Charge Calculation and Notifications.
