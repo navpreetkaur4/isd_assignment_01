@@ -1,8 +1,8 @@
 """
 Description: Unit tests for the BankAccount class.
 Author: ACE Faculty
-Modified by: {navpreet kaur}
-Date: {27-09-2024}
+Modified by: Navpreet Kaur
+Date: 27-09-2024
 Usage: To execute all tests in the terminal execute 
 the following command:
     python -m unittest tests/test_bank_account.py
@@ -87,6 +87,13 @@ class TestBankAccount(unittest.TestCase):
         original_balance = self.account.balance
         self.account.update_balance("invalid_amount")
         self.assertEqual(self.account.balance, original_balance)
+
+    # Additional tests for service charges or observer pattern if applicable
+    def test_service_charge_logic(self):
+        """Test the service charge logic (if implemented)."""
+        # You would need to set up the conditions for this test
+        # For example, you could update the balance to trigger service charges
+        pass
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,19 +4,14 @@ Author: Navpreet
 Date: 06/10/2024
 
 """
-
 from patterns.strategy.management_fee_strategy import ManagementFeeStrategy
-from bank_account import BankAccount
 
 class InvestmentAccount(BankAccount):
-    def __init__(self, account_number, balance, management_fee, service_charge):
+    def __init__(self, account_number, balance, management_fee, tenure):
         super().__init__(account_number, balance)
-        # Initialize the strategy with appropriate arguments
-        self._service_charge_strategy = ManagementFeeStrategy(
-            management_fee=management_fee,
-            service_charge=service_charge
-        )
-    
+        # Initialize ManagementFeeStrategy with management fee and tenure
+        self._management_fee_strategy = ManagementFeeStrategy(management_fee, tenure)
+
     def get_service_charges(self):
-        # Call to calculate service charges using the strategy
-        return self._service_charge_strategy.calculate_service_charges(self)
+        # Delegate service charge calculation to the ManagementFeeStrategy
+        return self._management_fee_strategy.calculate_service_charges(self)

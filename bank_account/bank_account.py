@@ -1,6 +1,6 @@
 """
-Description: This file defines the BankAccount class, which represents a bank account with basic operations such as deposit and withdrawal.
-Author:Navpreet kaur
+Description: This module defines the BankAccount class, which represents a bank account with basic operations such as deposit and withdrawal.
+Author: Navpreet Kaur
 Date: 10/09/2024
 """
 
@@ -14,10 +14,10 @@ class BankAccount(Subject, ABC):
     """
 
     # Define constants for the bank account class
-    LOW_BALANCE_LEVEL = 50.00  # Example low balance threshold
-    LARGE_TRANSACTION_THRESHOLD = 1000.00  # Example threshold for large transactions
+    LOW_BALANCE_LEVEL: float = 50.00  # Example low balance threshold
+    LARGE_TRANSACTION_THRESHOLD: float = 1000.00  # Example threshold for large transactions
 
-    def __init__(self, account_number, initial_balance):
+    def __init__(self, account_number: str, initial_balance: float) -> None:
         """
         Initialize the BankAccount with an account number and an initial balance.
 
@@ -26,10 +26,10 @@ class BankAccount(Subject, ABC):
         initial_balance (float): The initial balance of the account.
         """
         super().__init__()  # Call to the superclass __init__ to initialize the observers list
-        self.account_number = account_number
-        self.balance = initial_balance
+        self.account_number: str = account_number
+        self.balance: float = initial_balance
 
-    def update_balance(self, amount):
+    def update_balance(self, amount: float) -> None:
         """
         Update the balance of the bank account by adding the specified amount.
         Notify observers if the balance is below the LOW_BALANCE_LEVEL
@@ -38,6 +38,9 @@ class BankAccount(Subject, ABC):
         Parameters:
         amount (float): The amount to add to the balance. Can be negative for withdrawals.
         """
+        if not isinstance(amount, (int, float)):
+            raise ValueError("Amount must be a number.")
+
         self.balance += amount  # Update the balance
 
         # Check for low balance warning
