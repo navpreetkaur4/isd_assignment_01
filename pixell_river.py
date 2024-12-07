@@ -1,14 +1,8 @@
-# REQUIREMENT - add import statements
-from user_interface.client_lookup_window import ClientLookupWindow
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
 
-# GIVEN:
-from PySide6.QtWidgets import QApplication
-
-# GIVEN:
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    mainWindow = ClientLookupWindow()
-    mainWindow.show()
-    sys.exit(app.exec())
+app = QApplication(sys.argv)
+window = QWidget()
+window.setWindowTitle('Test Window')
+window.show()
+sys.exit(app.exec_())

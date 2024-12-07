@@ -1,72 +1,57 @@
-import copy
-from PySide6.QtWidgets import QTableWidgetItem, QMessageBox
-from PySide6.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem
+from PyQt5.QtCore import Qt, pyqtSignal
 
-from ui_superclasses.lookup_window import LookupWindow
-from user_interface.account_details_window import AccountDetailsWindow
-from PySide6.QtWidgets import QDialog, QLabel, QPushButton, QLineEdit, QMessageBox, QVBoxLayout
-from user_interface.manage_data import load_data
-from user_interface.manage_data import update_data
-from bank_account.bank_account import BankAccount
-
-# ClientLookupWindow.py
+class LookupWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Client Lookup')
+        self.setGeometry(100, 100, 800, 600)
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        self.layout = QVBoxLayout(self.central_widget)
+        
+        self.lookup_button = QPushButton('Lookup Client', self)
+        self.layout.addWidget(self.lookup_button)
+        
+        self.table_widget = QTableWidget(self)
+        self.layout.addWidget(self.table_widget)
+        
+        self.lookup_button.clicked.connect(self.on_lookup_client)
+        
+    def reset_display(self):
+        """Reset display (clear data, reset UI elements)"""
+        self.table_widget.clear()
+        
+    def on_lookup_client(self):
+        """Lookup client and display data"""
+        print("Client lookup started.")
+        # Logic to update the table with client data
+        
 class ClientLookupWindow(LookupWindow):
     def __init__(self):
         super().__init__()
-        self.client_listing, self.accounts = load_data()
-        self.lookup_button.clicked.connect(self.on_lookup_client)
-        self.account_table.cellClicked.connect(self.on_select_account)
-
-    def on_lookup_client(self):
-        try:
-            client_number = int(self.client_number_edit.text())
-        except ValueError:
-            QMessageBox.warning(self, "Non-Numeric Client", "Please enter a valid numeric client number.")
-            self.reset_display()
-            return
+        self.client_listing = {}  # Dictionary to store client data
+        self.accounts = {}  # Dictionary to store account details
         
-        if client_number not in self.client_listing:
-            QMessageBox.warning(self, "Client Not Found", f"Client {client_number} not found.")
-            self.reset_display()
-            return
-        
-        client = self.client_listing[client_number]
-        self.client_info_label.setText(f"Client: {client.first_name}")
-
-        # print(f"Accounts available: {self.accounts}")
-        # Add client accounts to accountTable
-        self.account_table.setRowCount(0)  # Clear the table before adding new rows
-        for account in self.accounts.values():
-            if account.client_number == client_number:
-                row_position = self.account_table.rowCount()
-                self.account_table.insertRow(row_position)
-
-                # Populate account details
-                self.account_table.setItem(row_position, 0, QTableWidgetItem(str(account.account_number)))
-                self.account_table.setItem(row_position, 1, QTableWidgetItem(f"${account.balance:,.2f}"))
-                self.account_table.setItem(row_position, 2, QTableWidgetItem(account.date_created.strftime('%Y-%m-%d')))
-                self.account_table.setItem(row_position, 3, QTableWidgetItem(account.__class__.__name__))
-        
-        # Resize columns to fit content
-        self.account_table.resizeColumnsToContents()                
-
     def on_select_account(self, row, column):
-        account_number = int(self.account_table.item(row, 0).text())
-        print(f"Accounts available: {self.accounts}")
+        """Handle account selection"""
+        account_number = self.table_widget.item(row, column).text()
+        balance = self.accounts.get(account_number, {}).get('balance', 'N/A')
+        print(f"Selected Account: {account_number} - Balance: {balance}")
+    
+    def update_data(self, account_number, balance):
+        """Update account data"""
         if account_number in self.accounts:
-            account = self.accounts[account_number]
-            account_details_window = AccountDetailsWindow(account)
-            account_details_window.balance_updated.connect(self.update_data)
-            account_details_window.exec_()
+            self.accounts[account_number]['balance'] = balance
+        print(f"Updated Account {account_number} with new balance: {balance}")
+        
+    def on_filter_clicked(self):
+        """Handle filter clicked"""
+        print("Filter clicked.")
+        
+    def toggle_filter(self, filter_on):
+        """Toggle filter visibility"""
+        if filter_on:
+            print("Filter is ON.")
         else:
-            QMessageBox.warning(self, "Invalid Selection", "Please select a valid account.")
-
-    def update_data(self, account: BankAccount):
-        # Loop through the account_table to find the row that corresponds to the account number
-        for row in range(self.account_table.rowCount()):
-            account_number_item = self.account_table.item(row, 0)  # Assuming account number is in the first column
-            if account_number_item and account_number_item.text() == str(account.account_number):
-                self.account_table.item(row, 1).setText(f"{account.balance:.2f}")  # Update balance column
-                self.accounts[account.account_number] = account  # Update accounts dictionary
-                update_data(account)  # Call the manage_data module's update_data function
-                break
+            print("Filter is OFF.")

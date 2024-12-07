@@ -6,6 +6,7 @@ import copy
 
 class AccountDetailsWindow(QDialog):
     balance_updated = Signal(BankAccount)
+
     def __init__(self, account=None):
         super().__init__()
 
@@ -19,7 +20,7 @@ class AccountDetailsWindow(QDialog):
 
         # Set window title and initial size
         self.setWindowTitle("Account Details")
-        self.resize(200, 200)
+        self.resize(150, 100)
 
         # Step 3: Initialize labels and buttons
         self.account_number_label = QLabel(f"Account Number: {self.account.account_number}")
@@ -64,6 +65,9 @@ class AccountDetailsWindow(QDialog):
             # Step 1: Convert the input amount to a float
             amount = float(self.transaction_amount_edit.text())
 
+            if amount <= 0:
+                raise ValueError("Amount must be greater than zero.")
+
             # Step 2: Determine which button was clicked (Deposit or Withdraw)
             sender = self.sender()
             transaction_type = ""
@@ -80,20 +84,29 @@ class AccountDetailsWindow(QDialog):
             self.transaction_amount_edit.clear()  # Clear the amount field
             self.transaction_amount_edit.setFocus()  # Set focus to the amount field
 
-        except ValueError:
+            # Emit signal after transaction
+            self.balance_updated.emit(self.account)
+
+        except ValueError as e:
             # Invalid input, display error message
-            QMessageBox.warning(self, "Deposit Failed", "Invalid amount entered. Please enter a valid number.")
+            QMessageBox.warning(self, "Transaction Failed", f"Invalid amount entered: {str(e)}")
             self.transaction_amount_edit.clear()
             self.transaction_amount_edit.setFocus()
 
         except Exception as e:
             # Handle other errors such as insufficient balance, etc.
-            QMessageBox.warning(self, "Transaction Failed", f"Failed to {transaction_type}: {str(e)}")
+            QMessageBox.warning(self, "Transaction Failed", f"Failed to process the transaction: {str(e)}")
             self.transaction_amount_edit.clear()
             self.transaction_amount_edit.setFocus()
 
     def on_exit(self):
         """
-        Closes the dialog window and returns to the main window.
+        Confirms exit action and closes the dialog window.
         """
-        self.close()
+        reply = QMessageBox.question(
+            self, "Confirm Exit", "Are you sure you want to exit?",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+        )
+
+        if reply == QMessageBox.Yes:
+            self.close()

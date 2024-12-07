@@ -23,3 +23,10 @@ Key objectives of Assignment 5:
 - Implement a filtering algorithm for bank account data.
 - Generate HTML documentation for all classes using docstrings.
 - Package the application using Inno Setup for easy distribution.
+
+## Filtering
+Filtering in the PiXELL-River Account Manager allows users to easily view specific data by narrowing down accounts and transactions based on criteria like account type, balance range, transaction type, and date.
+
+Users can apply filters using dropdowns, date pickers, and search bars for quick and efficient results. This feature enhances user experience by allowing real-time updates and easy navigation through large datasets.
+
+Filtering is implemented using Python’s built-in functions to ensure smooth performance.
